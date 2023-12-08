@@ -2,19 +2,7 @@
 <html>
   <head>
     <title>Test Website</title>
-    <style>
-      h1 {
-        font-size: 50pt;
-        text-align: center;
-        background-color: lightblue;
-      }
-      .funny {
-        background-color: blue;
-        color: white;
-        width: 400px;
-        height: 200px;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div>
@@ -34,18 +22,7 @@
       <li>Fun Fact: The Largest Empire in History was the British Empire.</li>
     </ol>
     <div class="funny">this is super cool!</div>
-    <script>
-      let element = document.getElementById("toggle");
-      element.style.display = "block";
-
-      function toggleElement() {
-        let element = document.getElementById("toggle");
-        if (element.style.display == "block") {
-          element.style.display = "none";
-        } else {
-          element.style.display = "block";
-        }
-      }
-    </script>
+    <hr />
+    <script src="script.js"></script>
   </body>
 </html>

@@ -1,0 +1,11 @@
+h1 {
+  font-size: 50pt;
+  text-align: center;
+  background-color: lightblue;
+}
+.funny {
+  background-color: blue;
+  color: white;
+  width: 400px;
+  height: 200px;
+}
