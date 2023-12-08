@@ -11,7 +11,7 @@
       .funny {
         background-color: blue;
         color: white;
-        width: 200px;
+        width: 400px;
         height: 200px;
       }
     </style>
@@ -21,7 +21,8 @@
       <h1>Main Page - Heading One</h1>
       <p>First paragraph</p>
       <hr />
-      <img src="simulation.png" />
+      <button onclick="toggleElement()">Click to toggle</button>
+      <img id="toggle" src="simulation.png" />
       <p>Second paragraph</p>
       <hr />
     </div>
@@ -30,7 +31,21 @@
         <a href="another.html">Click for a map of Europe's alliances in 1914</a>
       </li>
       <li><a href="https://www.galojix.com">Click for Galojix</a></li>
+      <li>Fun Fact: The Largest Empire in History was the British Empire.</li>
     </ol>
-    <div class="funny">hello</div>
+    <div class="funny">this is super cool!</div>
+    <script>
+      let element = document.getElementById("toggle");
+      element.style.display = "block";
+
+      function toggleElement() {
+        let element = document.getElementById("toggle");
+        if (element.style.display == "block") {
+          element.style.display = "none";
+        } else {
+          element.style.display = "block";
+        }
+      }
+    </script>
   </body>
 </html>
