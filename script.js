@@ -1,5 +1,5 @@
-let element = document.getElementById("toggle");
-element.style.display = "block";
+// let element = document.getElementById("toggle");
+// element.style.display = "block";
 
 function toggleElement() {
   let element = document.getElementById("toggle");
@@ -23,7 +23,10 @@ function getRandomNumber(min, max, divisibleBy) {
 }
 
 function displayRandomNumber() {
-  let number = getRandomNumber(6, 10, 2);
+  let min = parseInt(document.getElementById("min").value);
+  let max = parseInt(document.getElementById("max").value);
+  let divBy = parseInt(document.getElementById("divBy").value);
+  let number = getRandomNumber(min, max, divBy);
   let element = document.getElementById("result");
   element.innerHTML = String(number);
 }
