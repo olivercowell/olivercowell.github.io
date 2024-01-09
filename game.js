@@ -1,42 +1,80 @@
 class Example extends Phaser.Scene {
-  preload() {
-    this.load.setBaseURL("https://labs.phaser.io");
+  lastFired = 0;
+  cursors;
+  stats;
+  speed;
+  ship;
+  bullets;
 
-    this.load.image("sky", "assets/skies/space3.png");
-    this.load.image("logo", "assets/sprites/phaser3-logo.png");
-    this.load.image("red", "assets/particles/red.png");
+  preload() {
+    this.load.image("ship", "assets/sprites/ship.png");
+    this.load.image("bullet", "assets/sprites/bullet.png");
   }
 
   create() {
-    this.add.image(400, 300, "sky");
+    class Bullet extends Phaser.GameObjects.Image {
+      constructor(scene) {
+        super(scene, 0, 0, "bullet");
 
-    const particles = this.add.particles(0, 0, "red", {
-      speed: 100,
-      scale: { start: 1, end: 0 },
-      blendMode: "ADD",
+        this.speed = Phaser.Math.GetSpeed(400, 1);
+      }
+
+      fire(x, y) {
+        this.setPosition(x, y - 50);
+
+        this.setActive(true);
+        this.setVisible(true);
+      }
+
+      update(time, delta) {
+        this.y -= this.speed * delta;
+
+        if (this.y < -50) {
+          this.setActive(false);
+          this.setVisible(false);
+        }
+      }
+    }
+
+    this.bullets = this.add.group({
+      classType: Bullet,
+      maxSize: 10,
+      runChildUpdate: true,
     });
 
-    const logo = this.physics.add.image(400, 100, "logo");
+    this.ship = this.add.sprite(400, 500, "ship").setDepth(1);
 
-    logo.setVelocity(100, 200);
-    logo.setBounce(1, 1);
-    logo.setCollideWorldBounds(true);
+    this.cursors = this.input.keyboard.createCursorKeys();
 
-    particles.startFollow(logo);
+    this.speed = Phaser.Math.GetSpeed(300, 1);
+  }
+
+  update(time, delta) {
+    if (this.cursors.left.isDown) {
+      this.ship.x -= this.speed * delta;
+    } else if (this.cursors.right.isDown) {
+      this.ship.x += this.speed * delta;
+    }
+
+    if (this.cursors.up.isDown && time > this.lastFired) {
+      const bullet = this.bullets.get();
+
+      if (bullet) {
+        bullet.fire(this.ship.x, this.ship.y);
+
+        this.lastFired = time + 50;
+      }
+    }
   }
 }
 
 const config = {
-  type: Phaser.AUTO,
+  type: Phaser.WEBGL,
   width: 800,
   height: 600,
+  backgroundColor: "#2d2d2d",
+  parent: "phaser-example",
   scene: Example,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: { y: 200 },
-    },
-  },
 };
 
 const game = new Phaser.Game(config);
