@@ -12,30 +12,6 @@ class Example extends Phaser.Scene {
   }
 
   create() {
-    class Bullet extends Phaser.GameObjects.Image {
-      constructor(scene) {
-        super(scene, 0, 0, "bullet");
-
-        this.speed = Phaser.Math.GetSpeed(400, 1);
-      }
-
-      fire(x, y) {
-        this.setPosition(x, y - 50);
-
-        this.setActive(true);
-        this.setVisible(true);
-      }
-
-      update(time, delta) {
-        this.y -= this.speed * delta;
-
-        if (this.y < -50) {
-          this.setActive(false);
-          this.setVisible(false);
-        }
-      }
-    }
-
     this.bullets = this.add.group({
       classType: Bullet,
       maxSize: 10,
@@ -45,6 +21,10 @@ class Example extends Phaser.Scene {
     this.ship = this.add.sprite(400, 500, "ship").setDepth(1);
 
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.spacebar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
 
     this.speed = Phaser.Math.GetSpeed(300, 1);
   }
@@ -56,7 +36,7 @@ class Example extends Phaser.Scene {
       this.ship.x += this.speed * delta;
     }
 
-    if (this.cursors.up.isDown && time > this.lastFired) {
+    if (this.spacebar.isDown && time > this.lastFired) {
       const bullet = this.bullets.get();
 
       if (bullet) {
@@ -76,5 +56,29 @@ const config = {
   parent: "phaser-example",
   scene: Example,
 };
+
+class Bullet extends Phaser.GameObjects.Image {
+  constructor(scene) {
+    super(scene, 0, 0, "bullet");
+
+    this.speed = Phaser.Math.GetSpeed(400, 1);
+  }
+
+  fire(x, y) {
+    this.setPosition(x, y - 50);
+
+    this.setActive(true);
+    this.setVisible(true);
+  }
+
+  update(time, delta) {
+    this.y -= this.speed * delta;
+
+    if (this.y < -50) {
+      this.setActive(false);
+      this.setVisible(false);
+    }
+  }
+}
 
 const game = new Phaser.Game(config);
